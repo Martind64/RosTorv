@@ -65,9 +65,13 @@ class EventController extends Controller
         $event->end_date = $request->end_date;
         $event->img_path = $request->img_path;
         
-        // return $event;
+        
         // return $request->description;    
-       //$event->save();
+        // return $event;
+
+        $event->create();
+
+
 
         // $response = Response::json([
         //     'message' -> 'the event has been created'], 200);
