@@ -59,7 +59,7 @@ class EventController extends Controller
 
         $event = new Event;
 
-        $event->img_path = $request->name;  
+        $event->name = $request->name;  
         $event->description = $request->description;
         $event->start_date = $request->start_date;
         $event->end_date = $request->end_date;
@@ -69,7 +69,7 @@ class EventController extends Controller
         // return $request->description;    
         // return $event;
 
-        $event->create();
+        $event->save();
 
 
 
