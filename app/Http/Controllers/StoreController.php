@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Response;
 use Illuminate\Http\Request;
+
+// Models
+use App\Store;
 
 class StoreController extends Controller
 {
@@ -13,7 +16,11 @@ class StoreController extends Controller
      */
     public function index()
     {
-        return "hej";
+        $store = Store::all();
+
+        $response = Response::json($store, 200);
+
+        return $response;
     }
 
     /**
@@ -34,12 +41,25 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->name) {
+        if((!$request->name) || (!$request->password)) {
+            
+            // Create a response using the response class
             $response = Response::json([
                 'error' => [
-                    'message' => 'Pleaser enter all required fields']], 422);
+                    'message' => 'Please enter all required fields']], 422);
+            return $response;
         }
 
+        $store = new Store([
+            'name' => $request->name,
+            'password' => $request->password,
+            'role' => 'Role_user']);
+
+        $store->save();
+
+        $response = Response::json([
+            'message' => 'The store '.$store->name.' has been created'], 200);
+        return $response;
         
     }
 
@@ -51,7 +71,21 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        //
+        // Find a store on ID
+        $store = Store::find($id);
+
+        // If the store doesn't exist return an error response
+        if (!$store) {
+            $response = Response::json([
+                'error' => [
+                    'message' => 'The store could not be found']], 422);
+            return $response;
+        }
+
+        // Save the store and return a success
+        $response = Response::json($store, 200);
+
+        return $response;
     }
 
     /**
@@ -62,7 +96,7 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -74,7 +108,25 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Find the store on ID
+        $store = Store::find($id);
+
+        // If the store doesn't exist throw an error response
+        if (!$store) {
+            $response = Response::json([
+                'error' => [
+                    'message' => 'The store could not be found']], 422);
+            return $response;
+        }
+
+        // Create new store object
+        $store = new Store();
+        $store->name = $request->name;
+        $store->password = $request->password;
+
+
+        $store->save();
+
     }
 
     /**
@@ -83,8 +135,21 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id)    
     {
-        //
+        $store = Store::find($id);
+
+        if (!$store) {
+            $response = Response::json([
+                'error' => [
+                    'message' => 'The store could not be found']], 422);
+            return $response;
+        }
+
+        Store::destroy($id);
+        $response = Response::json([
+            'message' => 'The store '.$store->name.' has been deleted'], 200);
+        return $response;
+
     }
 }
