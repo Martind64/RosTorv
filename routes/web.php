@@ -12,5 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
+});
+Route::get('/forside', function () {
+    return view('forside-shops');
+});
+Route::get('/forside-admin', function () {
+    return view('admin-shop-forside');
 });
