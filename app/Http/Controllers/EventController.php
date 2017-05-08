@@ -71,6 +71,11 @@ class EventController extends Controller
 
         $event->save();
 
+        $response = Response::json([
+            'message' => 'The event '.$event->name.' has been created'
+            ], 200);
+        return $response;
+
 
 
         // $response = Response::json([
@@ -125,7 +130,31 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Find the event on ID
+
+        $event = Event::find($id);
+
+        if (!$event) {
+            $response = Response::json([
+                'error' => [
+                    'message' => 'The event could not be found']], 422);
+            return $response;
+        }
+
+        
+
+        $event->name = $request->name;  
+        $event->description = $request->description;
+        $event->start_date = $request->start_date;
+        $event->end_date = $request->end_date;
+        $event->img_path = $request->img_path;
+
+        $event->save();
+
+         $response = Response::json([
+            'message' => 'The event '.$event->name.' has been updated'
+            ], 200);
+        return $response;
     }
 
     /**
@@ -136,6 +165,18 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Event::find($id);
+
+        if (!$event) {
+            $response = Response::json([
+                'error' => [
+                    'message' => 'The event could not be found']], 422);
+            return $response;
+        }
+
+        Event::destroy($id);
+        $response = Response::json([
+            'message' => 'The event '.$event->name.' has been deleted'], 200);
+        return $response;
     }
 }

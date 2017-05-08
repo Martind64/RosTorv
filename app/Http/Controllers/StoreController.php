@@ -119,13 +119,18 @@ class StoreController extends Controller
             return $response;
         }
 
-        // Create new store object
-        $store = new Store();
+        
+        
         $store->name = $request->name;
         $store->password = $request->password;
 
 
         $store->save();
+
+        $response = Response::json([
+            'message' => 'The store '.$store->name.' has been updated'
+            ], 200);
+        return $response;
 
     }
 
