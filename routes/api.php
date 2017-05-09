@@ -22,6 +22,8 @@ Route::group(['prefix' => 'v1'], function(){
 	Route::resource('store', 'StoreController');
 	
 	Route::resource('event', 'EventController');
+
+	Route::resource('offer', 'OfferController');
 });
 
 

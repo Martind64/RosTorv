@@ -18,4 +18,10 @@ class Store extends Model
         'name', 'password', 'role',
     ];
 
+    public function offers(){
+        return $this->hasMany('App\Offer');
+    }
+
 }
+
+
