@@ -24,6 +24,8 @@ Route::group(['prefix' => 'v1'], function(){
 	Route::resource('event', 'EventController');
 
 	Route::resource('offer', 'OfferController');
+
+	Route::resource('storeCords', 'storeCordsController');
 });
 
 

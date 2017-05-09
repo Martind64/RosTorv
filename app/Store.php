@@ -22,6 +22,10 @@ class Store extends Model
         return $this->hasMany('App\Offer');
     }
 
+    public function storeCords(){
+        return $this->hasMany('App\StoreCords');
+    }
+
 }
 
 
