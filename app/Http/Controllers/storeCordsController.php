@@ -51,6 +51,7 @@ class storeCordsController extends Controller
         }
 
         $storeCords = new StoreCords([
+            'store_id' => $request->store_id,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude]);
 
@@ -117,7 +118,7 @@ class storeCordsController extends Controller
         }
 
         
-        
+        $storeCords->store_id = $request->store_id;
         $storeCords->latitude = $request->latitude;
         $storeCords->longitude = $request->longitude;
 

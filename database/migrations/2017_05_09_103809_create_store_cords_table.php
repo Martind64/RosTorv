@@ -15,6 +15,7 @@ class CreateStoreCordsTable extends Migration
     {
         Schema::create('store_cords', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('store_id');
             $table->double('latitude');
             $table->double('longitude');
         });

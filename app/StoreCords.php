@@ -14,6 +14,10 @@ class StoreCords extends Model
      * @var array
      */
     protected $fillable = [
-        'latitude', 'longitude', 
+        'store_id', 'latitude', 'longitude', 
     ];
+
+    public function store(){
+        return $this->belongsTo('App\Store');
+    }
 }
