@@ -20,3 +20,7 @@ Route::get('/forside', function () {
 Route::get('/forside-admin', function () {
     return view('admin-shop-forside');
 });
+Route::get('/header', function () {
+    return view('header');
+});
+

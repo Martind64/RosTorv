@@ -11,12 +11,14 @@
   <title>Ro's Torv Forside</title>
 </head>
 <body>
+<p>For later:
+if user.role = admin
+include('header') 
+else</p>
+  @include('header-user') 
   <div class="col-md-2 text-left">
-    h
   </div>
   <div class="col-md-8 ">
-  <br>
-  <br><br>
       <div>
         <input type="text" disabled="disabled" value="" name="Butiksnavn">
       </div>
@@ -35,8 +37,8 @@
           <tr>
             <th>
                     <div class="text-left">
-        <button type="button" class="btn-success" style="width: 200px; height: 40px;">
-        <span class="glyphicon glyphicon-plus"></span> Tilføj nyt tilbud?</button>
+        <button type="button" class="btn-success " style="width: 200px; height: 40px;">
+        <span class="glyphicon glyphicon-plus"></span> Tilføj nyt tilbud</button>
             </th>
             <th>
             
@@ -101,7 +103,7 @@
     </div>
   </div>
   <div class="col-md-2">
-  <br>
+<!--   <br>
   <br>
       <div class="text-left">
         <button type="button" class="btn-success" style="width: 200px; height: 40px;">
@@ -112,6 +114,18 @@
         <span class="glyphicon glyphicon-plus"></span>Delete Tilbud</button>            
       </div>
 
-  </div>
+  </div> -->
 </body>
+
+
+<style type="text/css">
+.forsideheader {
+      padding: 1em;
+    color: white;
+    background-color: white;
+    clear: left;
+    text-align: center;
+}
+</style>
+
 </html>

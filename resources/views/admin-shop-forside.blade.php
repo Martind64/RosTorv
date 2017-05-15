@@ -11,10 +11,10 @@
   <title>Ro's Torv Forside</title>
 </head>
 <body>
-  <div class="col-md-2 text-left">
-    h
+@include('header')
+  <div class="col-md-2">
   </div>
-  <div class="col-md-8 ">'
+  <div class="col-md-8 ">
   <div class="row">
     <div class="btn text">
 
@@ -69,15 +69,14 @@
         </table>
       </div>
     </div>
-      <div class="text-center">
+<!--       <div class="text-center">
       <br>
       <br>
         <button type="button" class="btn-success" style="width: 300px; height: 40px;">
         <span class="glyphicon glyphicon-plus"></span>Tilføj Event her?</button>
       </div>
-  </div>
+  </div> -->
   <div class="col-md-2 text-center">
-    j
   </div>
 </body>
 </html>
