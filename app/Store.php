@@ -41,10 +41,11 @@ class Store extends Model
             $response = Response::json([
                 'error' => [
                     'message' => 'The store already exists']]);
-            return $response;
+
+            return ['result' => true, 'response' => $response];
         }
         // Return false if the user doesn't exist
-        return false;
+        return ['result' => false];
     }
 
 }

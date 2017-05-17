@@ -72,8 +72,8 @@ class StoreController extends Controller
 
         // Check if the store already exists
         $result = Store::checkExists('name', $request->name);
-        if ($result != false) {
-            return $result;
+        if ($result['result'] != false) {
+            return $result['response'];
         }
 
         // Create a new store object with the posted values
@@ -151,6 +151,13 @@ class StoreController extends Controller
             return $auth['response'];
         }
 
+        // Check the role of the store
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
+        
         // Find the store on ID
         $store = Store::find($id);
 
@@ -164,8 +171,8 @@ class StoreController extends Controller
 
         // Check to see if a store with the posted name already exists
         $result = Store::checkExists('name', $request->name);
-        if ($result != false) {
-            return $result;
+        if ($result['result'] != false) {
+            return $result['response'];
         }
 
         $store->name = $request->name;

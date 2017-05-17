@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Response;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthenticateController;
 
 
 // Models
@@ -45,6 +46,23 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
+        // Check the role of the user
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
+
+        // Check to see if the properties has been posted
+        // Datetime format for testing - 2017-01-19 03:14:07
         if((!$request->name) || (!$request->description) || (!$request->start_date) || (!$request->end_date) || (!$request->img_path))
             // Create a response using the response class
         {
@@ -52,8 +70,6 @@ class EventController extends Controller
                 'error' => [
                     'message' => 'Please enter all the required fields']], 422);
             return $response;
-
-
         }
 
 
@@ -65,10 +81,6 @@ class EventController extends Controller
         $event->end_date = $request->end_date;
         $event->img_path = $request->img_path;
         
-        
-        // return $request->description;    
-        // return $event;
-
         $event->save();
 
         $response = Response::json([
@@ -76,12 +88,6 @@ class EventController extends Controller
             ], 200);
         return $response;
 
-
-
-        // $response = Response::json([
-        //     'message' -> 'the event has been created'], 200);
-
-        // return $response;
     }
 
     /**
@@ -92,8 +98,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //find store id
-
+        //find event id
         $event = Event::find($id);
 
         //if the event doesn't exist return an error response
@@ -130,8 +135,22 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Find the event on ID
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
 
+        // Check the role of the store
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
+        
+        // Find the event on ID
         $event = Event::find($id);
 
         if (!$event) {
@@ -140,8 +159,6 @@ class EventController extends Controller
                     'message' => 'The event could not be found']], 422);
             return $response;
         }
-
-        
 
         $event->name = $request->name;  
         $event->description = $request->description;
@@ -165,6 +182,20 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
+        // Check the role of the store
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
         $event = Event::find($id);
 
         if (!$event) {

@@ -14,7 +14,7 @@ class AuthenticateController extends Controller
 
  			$response = Response::json([
  				'error' => [
-					'message' => 'You need to send a token with your request']]);
+					'message' => 'You need to send a token with your request']], 401);
 
  			return ['result' => false, 'response' => $response]; 
  
@@ -32,7 +32,7 @@ class AuthenticateController extends Controller
  		if ($length < 1) {
  				$response = Response::json([
 					'error' => [
-						'message' => 'Invalid token was given']]);
+						'message' => 'Invalid token was given']], 406);
 
 	 			return ['result' => false, 'response' => $response];
  		}
@@ -41,6 +41,6 @@ class AuthenticateController extends Controller
 
  		// Return true if the store has been authenticated
  		return ['result' => true, 'role' => $role];
-
  	}
+
 }
