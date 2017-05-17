@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 // Models
 use App\Store;
+use App\Http\Controllers\LoginController;
 
 class StoreController extends Controller
 {
@@ -18,9 +19,12 @@ class StoreController extends Controller
     {
         $store = Store::all();
 
+        $login = new LoginController();
+
         $response = Response::json($store, 200);
 
         return $response;
+
     }
 
     /**
@@ -142,7 +146,7 @@ class StoreController extends Controller
      */
     public function destroy($id)    
     {
-        $store = Store::find($id);
+        $store = Store::find($id);  
 
         if (!$store) {
             $response = Response::json([
@@ -157,4 +161,6 @@ class StoreController extends Controller
         return $response;
 
     }
+
+
 }

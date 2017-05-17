@@ -15,7 +15,7 @@ class Store extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'password', 'role',
+        'name', 'password', 'role', 'api_token',
     ];
 
     public function offers(){

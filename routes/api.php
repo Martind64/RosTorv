@@ -26,6 +26,8 @@ Route::group(['prefix' => 'v1'], function(){
 	Route::resource('offer', 'OfferController');
 
 	Route::resource('storeCords', 'storeCordsController');
+
+	Route::get('/login', 'LoginController@login');
 });
 
 
