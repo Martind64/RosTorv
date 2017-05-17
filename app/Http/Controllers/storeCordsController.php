@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Response;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthenticateController;
 
 //Models
 use App\StoreCords;
@@ -41,6 +42,21 @@ class storeCordsController extends Controller
      */
     public function store(Request $request)
     {
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
+        // Check the role of the store
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
+
         if((!$request->latitude) || (!$request->longitude)){
 
             //Create a response using the response class
@@ -106,6 +122,20 @@ class storeCordsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
+        // Check the role of the store
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
         // Find the storeCords on ID
         $storeCords = StoreCords::find($id);
 
@@ -138,6 +168,21 @@ class storeCordsController extends Controller
      */
     public function destroy($id)
     {
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
+        // Check the role of the store
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
+
         $storeCords = StoreCords::find($id);
 
         if (!$storeCords) {
