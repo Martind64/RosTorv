@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Response;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthenticateController;
 
 //model
 use App\Offer;
@@ -47,7 +48,21 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
+        // Check the role of the store
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
         if((!$request->store_id) || (!$request->name) || (!$request->description) || (!$request->price) || (!$request->discount) || (!$request->img_path) || (!$request->start_date) || (!$request->end_date)) {
             $response = Response::json([
                 'error' => [
@@ -117,6 +132,13 @@ class OfferController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
         // Find the event on ID
         $offer = Offer::find($id);
 
@@ -154,7 +176,20 @@ class OfferController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
+        // Check the role of the store
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
 
         $offer = Offer::find($id);
 

@@ -98,14 +98,6 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        // Authenticate the user
-        $auth = AuthenticateController::authenticate();
-        
-        // return response if authentication fails;
-        if ($auth['result'] == false) {
-            return $auth['response'];
-        }
-
         // Find a store on ID
         $store = Store::find($id);
 
