@@ -9,8 +9,19 @@ use App\Store;
 class LoginController extends Controller
 {
     
-    public function login($name, $password){
-    	
+    public function login(Request $request){
+    	// Set the name and password to the posted values
+        if((!$request->name) || (!$request->password)) {
+            // Create a response using the response class
+            $response = Response::json([
+                'error' => [
+                    'message' => 'Please enter all required fields']], 422);
+            return $response;
+        }
+        
+    	$name = $request->name;
+    	$password = $request->password;
+
     	// Check if the store exists
     	$store = Store::where('name', '=', $name)->where('password', '=', $password)->get();
 

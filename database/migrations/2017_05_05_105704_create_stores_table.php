@@ -17,7 +17,7 @@ class CreateStoresTable extends Migration
             $table->increments('id');
             $table->string('name', '30')->unique();
             $table->string('role');
-            $table->string('api_token')->nullable();
+            $table->string('api_token', 80)->unique()->nullable();
             $table->string('password');
         });
     }

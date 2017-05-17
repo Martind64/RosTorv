@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 // Models
 use App\Store;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AuthenticateController;
 
 class StoreController extends Controller
 {
@@ -45,6 +45,22 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
+        // Check the role of the store
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
+
+        // Check to see if the properties has been posted
         if((!$request->name) || (!$request->password)) {
             
             // Create a response using the response class
@@ -54,13 +70,20 @@ class StoreController extends Controller
             return $response;
         }
 
+        // Check if the store already exists
+        $result = Store::checkExists('name', $request->name);
+        if ($result != false) {
+            return $result;
+        }
+
+        // Create a new store object with the posted values
         $store = new Store([
             'name' => $request->name,
             'password' => $request->password,
-            'role' => 'Role_user']);
+            'role' => 'ROLE_USER']);
 
+        // Save the store and return a json response
         $store->save();
-
         $response = Response::json([
             'message' => 'The store '.$store->name.' has been created'], 200);
         return $response;
@@ -75,6 +98,14 @@ class StoreController extends Controller
      */
     public function show($id)
     {
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
         // Find a store on ID
         $store = Store::find($id);
 
@@ -111,7 +142,15 @@ class StoreController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
         // Find the store on ID
         $store = Store::find($id);
 
@@ -123,8 +162,12 @@ class StoreController extends Controller
             return $response;
         }
 
-        
-        
+        // Check to see if a store with the posted name already exists
+        $result = Store::checkExists('name', $request->name);
+        if ($result != false) {
+            return $result;
+        }
+
         $store->name = $request->name;
         $store->password = $request->password;
 
@@ -146,6 +189,21 @@ class StoreController extends Controller
      */
     public function destroy($id)    
     {
+        // Authenticate the user
+        $auth = AuthenticateController::authenticate();
+        
+        // return response if authentication fails;
+        if ($auth['result'] == false) {
+            return $auth['response'];
+        }
+
+        // Check the role of the store
+        if ($auth['role'] !== 'ROLE_ADMIN') {
+            return Response::json([
+                'error' => [
+                    'message' => 'Admin rights required']]);
+        }
+
         $store = Store::find($id);  
 
         if (!$store) {
