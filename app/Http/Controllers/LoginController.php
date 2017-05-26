@@ -37,7 +37,7 @@ class LoginController extends Controller
     		$store[0]->api_token = $token;
     		$store[0]->save();
 
-    		return $token;
+    		return ['role' => $store[0]->role, 'store_id' => $store[0]->id, 'name' => $store[0]->name, 'api_token' => $token];
     	}
 
 
