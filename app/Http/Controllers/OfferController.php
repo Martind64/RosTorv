@@ -17,16 +17,18 @@ class OfferController extends Controller
      */
     public function index()
     {
-        //
+        // If a store id has been sent, retrieve only offers with that id
+        if (!isset($_GET['store_id'])) {
+            $offer = Offer::all();
+            $response = Response::json($offer, 200);
+            return $response;
+        }
 
-        $offer = Offer::all();
+        $storeId = $_GET['store_id'];
 
-
-        // view full information about specific store
-        //$offer = Offer::find(1)->store;
+        $offer = Offer::where('store_id', '=', $storeId)->get();
 
         $response = Response::json($offer, 200);
-
         return $response;
     }
 
@@ -63,6 +65,8 @@ class OfferController extends Controller
                 'error' => [
                     'message' => 'Admin rights required']]);
         }
+
+        // Datetime format for testing - 2017-01-19 03:14:07
         if((!$request->store_id) || (!$request->name) || (!$request->description) || (!$request->price) || (!$request->discount) || (!$request->img_path) || (!$request->start_date) || (!$request->end_date)) {
             $response = Response::json([
                 'error' => [

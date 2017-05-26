@@ -20,7 +20,6 @@ class EventController extends Controller
     public function index()
     {
         //list all events
-
         $event = Event::all();
 
         $response = Response::json($event, 200);
@@ -73,7 +72,7 @@ class EventController extends Controller
         }
 
 
-        $event = new Event;
+        $event = new Event();
 
         $event->name = $request->name;  
         $event->description = $request->description;
