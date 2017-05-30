@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthenticateController;
 
 //model
 use App\Offer;
+use App\Store;
 
 class OfferController extends Controller
 {
@@ -208,5 +209,21 @@ class OfferController extends Controller
         $response = Response::json([
             'message' => 'The offer '.$offer->name.' has been deleted'], 200);
         return $response;
+    }
+
+
+    /**
+     * find the daily offer for today.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getWeeklyOffer($id){
+
+
+        $store = Store::with('offers')->get()->find($id);
+
+        return $store;
+           
     }
 }

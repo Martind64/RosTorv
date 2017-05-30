@@ -17,7 +17,8 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $store = Store::all();
+        $store = Store::where('role', '!=', 'ROLE_ADMIN')->get();
+
 
         $login = new LoginController();
 

@@ -28,6 +28,8 @@ Route::group(['prefix' => 'v1', 'middleware' => 'cors'], function(){
 	Route::resource('storeCords', 'storeCordsController');
 
 	Route::post('/login', 'LoginController@login');
+
+	Route::get('/offer/weeklyOffer/{id}', 'OfferController@getWeeklyOffer');
 });
 
 
